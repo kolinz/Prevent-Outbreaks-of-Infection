@@ -1,0 +1,376 @@
+[
+    {
+        "id": "57c60c54.ff04e4",
+        "type": "tab",
+        "label": "Call4Code-Prevent Outbreaks of Infection",
+        "disabled": false,
+        "info": "Webフォームに画像をアップロードし、画像分類結果を表示する。"
+    },
+    {
+        "id": "22365542.422a9a",
+        "type": "http response",
+        "z": "57c60c54.ff04e4",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1270,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "a0361027.0911b",
+        "type": "template",
+        "z": "57c60c54.ff04e4",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<html>\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\">\n<title>Result</title>\n<link rel=\"stylesheet\" href=\"https://storage.googleapis.com/code.getmdl.io/1.0.0/material.indigo-pink.min.css\">\n<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/icon?family=Material+Icons\">\n<script src=\"https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js\"></script>\n<style type=\"text/css\">\ntable{\n  width: 100%;\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n\ntable th,table td{\n  padding: 10px 0;\n  text-align: center;\n}\n\ntable tr:nth-child(odd){\n  background-color: #eee\n}\n</style>\n</head>\n<body>\n<center>\n<pre>\n{{{payload}}}\n</pre>\n<h4>Basic Information</h4>\n<p>Target：{{target}}</p>\n<p>Location：{{filmlocation}}</p>\n<p>Model Name：{{model}}</p>\n<h4>Recognition result</h4>\n<table>\n    <tr>\n        <th>Candidate1</th>\n        <td>{{class1}}</td>\n        <td>{{score1}}</td>\n    </tr>\n    <tr>\n        <th>Candidate2</th>\n        <td>{{class2}}</td>\n        <td>{{score2}}</td>\n    </tr>\n    <tr>\n        <th>Candidate3</th>\n        <td>{{class3}}</td>\n        <td>{{score3}}</td>\n    </tr>\n    <tr>\n        <th>Candidate4</th>\n        <td>{{class4}}</td>\n        <td>{{score4}}</td>\n    </tr>\n    <tr>\n        <th>Candidate5</th>\n        <td>{{class5}}</td>\n        <td>{{score5}}</td>\n    </tr>\n    <tr>\n        <th>Candidate6</th>\n        <td>{{class6}}</td>\n        <td>{{score6}}</td>\n    </tr>\n</table>\n<hr />\n<p><button type=\"button\" onclick=\"history.back()\">Back</button></p>\n</center>\n</body>\n</html>",
+        "output": "str",
+        "x": 1040,
+        "y": 339,
+        "wires": [
+            [
+                "22365542.422a9a"
+            ]
+        ]
+    },
+    {
+        "id": "928f8621.8c7548",
+        "type": "function",
+        "z": "57c60c54.ff04e4",
+        "name": "process image output",
+        "func": "if (msg.req.files[0].mimetype.includes('image')) {\n    msg.payload = `<img src=\"data:image/gif;base64,${msg.payload.toString('base64')}\" width=\"90%\" height=\"auto\">`;\n} else {\n    msg.payload = msg.payload.toString();\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 780,
+        "y": 339,
+        "wires": [
+            [
+                "a0361027.0911b"
+            ]
+        ]
+    },
+    {
+        "id": "d163c1c7.e339b",
+        "type": "http in",
+        "z": "57c60c54.ff04e4",
+        "name": "",
+        "url": "/uploadsimple_post",
+        "method": "post",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 210,
+        "y": 98,
+        "wires": [
+            [
+                "bea5dbfa.d4d5d8",
+                "b180188d.3e7148"
+            ]
+        ]
+    },
+    {
+        "id": "bea5dbfa.d4d5d8",
+        "type": "change",
+        "z": "57c60c54.ff04e4",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "req.files[0].buffer",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 460,
+        "y": 98,
+        "wires": [
+            [
+                "9f332332.6b313"
+            ]
+        ]
+    },
+    {
+        "id": "a8b4d98f.3d3418",
+        "type": "visual-recognition-v3",
+        "z": "57c60c54.ff04e4",
+        "name": "",
+        "vr-service-endpoint": "https://gateway.watsonplatform.net/visual-recognition/api",
+        "image-feature": "classifyImage",
+        "lang": "ja",
+        "x": 210,
+        "y": 341,
+        "wires": [
+            [
+                "1895193e.7706a7",
+                "c41e6afa.843028",
+                "ee77dbed.f18e68"
+            ]
+        ]
+    },
+    {
+        "id": "2ee64e72.bfa7f2",
+        "type": "debug",
+        "z": "57c60c54.ff04e4",
+        "name": "debug: Send to Cloudant",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 1090,
+        "y": 643,
+        "wires": []
+    },
+    {
+        "id": "1895193e.7706a7",
+        "type": "function",
+        "z": "57c60c54.ff04e4",
+        "name": "Output Save Recognition data",
+        "func": "//日時を取得\nvar date = new Date();\n\n//対象名,撮影者名,モデルを取得\nvar target = msg.req.body.itemID;\nvar user = msg.req.body.userID;\nvar model = msg.params.classifier_ids;\n\n//撮影場所を取得\nvar filmlocation = msg.req.body.filmlocation;\n\n//画像判定結果を取得\nvar imageclass1 = msg.result.images[0].classifiers[0].classes[0].class;\nvar imageclass2 = msg.result.images[0].classifiers[0].classes[1].class;\nvar imageclass3 = msg.result.images[0].classifiers[0].classes[2].class;\nvar imageclass4 = msg.result.images[0].classifiers[0].classes[3].class;\nvar imageclass5 = msg.result.images[0].classifiers[0].classes[4].class;\nvar imageclass6 = msg.result.images[0].classifiers[0].classes[5].class;\nvar imagescore1 = Number(msg.result.images[0].classifiers[0].classes[0].score);\nvar imagescore2 = Number(msg.result.images[0].classifiers[0].classes[1].score);\nvar imagescore3 = Number(msg.result.images[0].classifiers[0].classes[2].score);\nvar imagescore4 = Number(msg.result.images[0].classifiers[0].classes[3].score);\nvar imagescore5 = Number(msg.result.images[0].classifiers[0].classes[4].score);\nvar imagescore6 = Number(msg.result.images[0].classifiers[0].classes[5].score);\nvar imagefilename = msg.result.images[0].image;\nvar imagefiletype = msg.req.files[0].mimetype;\n\n//日時と画像判定結果をまとめる。\nmsg.payload = {\n    target: target,\n    user:  user,\n    model: model,\n    location: filmlocation,\n    filename: imagefilename,\n    filetype: imagefiletype,\n    class1: imageclass1,\n    score1: imagescore1,\n    class2: imageclass2,\n    score2: imagescore2,\n    class3: imageclass3,\n    score3: imagescore3,\n    class4: imageclass4,\n    score4: imagescore4,\n    class5: imageclass5,\n    score5: imagescore5,\n    class6: imageclass6,\n    score6: imagescore6,\n    date: date,\n    _attachments: {\n        A001: {\n           content_type: imagefiletype,\n           data: msg.payload.toString('base64')\n        }\n    }  \n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 690,
+        "y": 548,
+        "wires": [
+            [
+                "2ee64e72.bfa7f2",
+                "69bb057f.2394fc",
+                "10d3239c.1be02c"
+            ]
+        ]
+    },
+    {
+        "id": "428ffd01.4ca954",
+        "type": "function",
+        "z": "57c60c54.ff04e4",
+        "name": "Select Custome Model ID",
+        "func": "msg.params = {};\nmsg.params.classifier_ids = \"DefaultCustomModelBacteria_879086840\";\nmsg.params.threshold = \"0\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1090,
+        "y": 91,
+        "wires": [
+            [
+                "a8b4d98f.3d3418"
+            ]
+        ]
+    },
+    {
+        "id": "4041914b.fa31f",
+        "type": "comment",
+        "z": "57c60c54.ff04e4",
+        "name": "store IBM Cloudant",
+        "info": "",
+        "x": 1070,
+        "y": 508,
+        "wires": []
+    },
+    {
+        "id": "b7b60aa1.91e868",
+        "type": "comment",
+        "z": "57c60c54.ff04e4",
+        "name": "Select Custom Model ID",
+        "info": "",
+        "x": 1090,
+        "y": 53,
+        "wires": []
+    },
+    {
+        "id": "b180188d.3e7148",
+        "type": "debug",
+        "z": "57c60c54.ff04e4",
+        "name": "debug: Post data",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 310,
+        "y": 164,
+        "wires": []
+    },
+    {
+        "id": "9f332332.6b313",
+        "type": "switch",
+        "z": "57c60c54.ff04e4",
+        "name": "",
+        "property": "req.body.model",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "custom1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "general",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 690,
+        "y": 97,
+        "wires": [
+            [
+                "428ffd01.4ca954"
+            ],
+            [
+                "a8b4d98f.3d3418"
+            ]
+        ]
+    },
+    {
+        "id": "26093212.4e346e",
+        "type": "comment",
+        "z": "57c60c54.ff04e4",
+        "name": "Select Watson VR Model",
+        "info": "",
+        "x": 750,
+        "y": 63,
+        "wires": []
+    },
+    {
+        "id": "c41e6afa.843028",
+        "type": "function",
+        "z": "57c60c54.ff04e4",
+        "name": "class & score",
+        "func": "//画像分類結果\nvar class1 = msg.result.images[0].classifiers[0].classes[0].class;\nvar class2 = msg.result.images[0].classifiers[0].classes[1].class;\nvar class3 = msg.result.images[0].classifiers[0].classes[2].class;\nvar class4 = msg.result.images[0].classifiers[0].classes[3].class;\nvar class5 = msg.result.images[0].classifiers[0].classes[4].class;\nvar class6 = msg.result.images[0].classifiers[0].classes[5].class;\nvar score1 = Number(msg.result.images[0].classifiers[0].classes[0].score);\nvar score2 = Number(msg.result.images[0].classifiers[0].classes[1].score);\nvar score3 = Number(msg.result.images[0].classifiers[0].classes[2].score);\nvar score4 = Number(msg.result.images[0].classifiers[0].classes[3].score);\nvar score5 = Number(msg.result.images[0].classifiers[0].classes[4].score);\nvar score6 = Number(msg.result.images[0].classifiers[0].classes[5].score);\n\nmsg.class1 = class1;\nmsg.class2 = class2;\nmsg.class3 = class3;\nmsg.class4 = class4;\nmsg.class5 = class5;\nmsg.class6 = class6;\n\nmsg.score1 = score1 * 100 +\"%\";\nmsg.score2 = score2 * 100 +\"%\";\nmsg.score3 = score3 * 100 +\"%\";\nmsg.score4 = score4 * 100 +\"%\";\nmsg.score5 = score5 * 100 +\"%\";\nmsg.score6 = score6 * 100 +\"%\";\n\n//対象名,場所,モデルを取得\nmsg.target = msg.req.body.itemID;\nmsg.model = msg.req.body.model;\nmsg.filmlocation = msg.req.body.filmlocation;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 550,
+        "y": 340,
+        "wires": [
+            [
+                "928f8621.8c7548"
+            ]
+        ]
+    },
+    {
+        "id": "ee77dbed.f18e68",
+        "type": "debug",
+        "z": "57c60c54.ff04e4",
+        "name": "debug: Visual Recognition result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 250,
+        "y": 475,
+        "wires": []
+    },
+    {
+        "id": "69bb057f.2394fc",
+        "type": "cloudantplus out",
+        "z": "57c60c54.ff04e4",
+        "name": "",
+        "cloudant": "c79fcf88.f55dc",
+        "database": "log_recog_image",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 1070,
+        "y": 543,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "10d3239c.1be02c",
+        "type": "function",
+        "z": "57c60c54.ff04e4",
+        "name": "Set Messages",
+        "func": "text0 = \"Recognition result\" + \"\\n\"\ntext1 = \"Location:\" + msg.payload.location + \"\\n\" \ntext2 = \"User:\" + msg.payload.user + \"\\n\"\ntext3 = \"Candidate1:\" + msg.payload.class1 + \" / \" + msg.payload.score1 + \"\\n\"\ntext4 = \"Candidate2:\" + msg.payload.class2 + \" / \" + msg.payload.score2 + \"\\n\"\ntext5 = \"Candidate3:\" + msg.payload.class3 + \" / \" + msg.payload.score3 + \"\\n\"\ntext6 = \"Candidate4:\" + msg.payload.class4 + \" / \" + msg.payload.score4 + \"\\n\"\ntext7 = \"Candidate5:\" + msg.payload.class5 + \" / \" + msg.payload.score5 + \"\\n\"\ntext8 = \"Candidate6:\" + msg.payload.class6 + \" / \" + msg.payload.score6 + \"\\n\"\ntext9 = \"Date:\" + msg.payload.date + \"\\n\" \ntext = text0 + text1 + text2 + text3 + text4 + text5 + text6 + text7 + text8 + text9\n\nmsg.payload = { \"username\": \"webhookbot\",\n                \"text\" : text }\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 700,
+        "wires": [
+            [
+                "87700b92.c1ff68",
+                "45fa3b44.373584"
+            ]
+        ]
+    },
+    {
+        "id": "87700b92.c1ff68",
+        "type": "http request",
+        "z": "57c60c54.ff04e4",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "https://hooks.slack.com/services/xxxxxx/xxxxxxxxx",
+        "tls": "",
+        "proxy": "",
+        "authType": "",
+        "x": 590,
+        "y": 700,
+        "wires": [
+            [
+                "3060438.f9766bc"
+            ]
+        ]
+    },
+    {
+        "id": "6c64600a.a0a87",
+        "type": "comment",
+        "z": "57c60c54.ff04e4",
+        "name": "Post Slack Incoming webhook",
+        "info": "",
+        "x": 640,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "3060438.f9766bc",
+        "type": "debug",
+        "z": "57c60c54.ff04e4",
+        "name": "debug: Slack Post Status",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 800,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "45fa3b44.373584",
+        "type": "debug",
+        "z": "57c60c54.ff04e4",
+        "name": "debug: Post Slack Messages",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 640,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "c79fcf88.f55dc",
+        "type": "cloudantplus",
+        "z": "",
+        "host": "https://xxxxxxxx-bluemix:xxxxxxxxx-bluemix.cloudantnosqldb.appdomain.cloud",
+        "name": ""
+    }
+]

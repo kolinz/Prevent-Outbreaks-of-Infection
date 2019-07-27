@@ -1,0 +1,12 @@
+.container {
+    max-width:400px;
+    border: solid 1px #1eb3e9;
+    border-radius:10px 10px 10px 10px;
+  }
+
+.header {
+    background: #1eb3e9;
+    border-radius:10px 10px 0px 0px;
+    padding: 10px;
+    font-size: 18px;
+  }
