@@ -26,3 +26,7 @@ Please add the following nodes to Node-RED.
 - [node-red-node-watson](https://flows.nodered.org/node/node-red-node-watson)
 
 You have Node-RED ready and Please import "flows_web_form_image_recognition_stable.json" to Node-RED from backend directory.
+
+### Recognition data download
+
+If you want to download recognition data as a CSV file, Please import "notebook_datalistview.ipynb" to Jupyter Notebook. You can use Jupyter Notebook on Watson Studio.
