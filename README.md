@@ -5,7 +5,7 @@ Call for Code Challenge 2019
 ### Prerequisites
 Pleaase create a custom model on Watson Visual Recognition using Watson Studio.
 
-If you don't use Watson Studio, I recomend that you get [IBM Cloud Lite Account](https://www.ibm.com/jp-ja/cloud/lite-account). And you can ry custom model useing following contents.
+If you don't use Watson Studio, I recomend that you get [IBM Cloud Lite Account](https://www.ibm.com/jp-ja/cloud/lite-account). And you can try custom model useing following contents.
 
 https://www.ibm.com/support/knowledgecenter/DSXDOC/analyze-data/visual-recognition-create-model.html
 
