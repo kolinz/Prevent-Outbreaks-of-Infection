@@ -5,10 +5,16 @@ Call for Code Challenge 2019
 ### Prerequisites
 Pleaase create a custom model on Watson Visual Recognition using Watson Studio.
 
+If you don't use Watson Studio, I recomend that you get [IBM Cloud Lite Account](https://www.ibm.com/jp-ja/cloud/lite-account). And you can ry custom model useing following contents.
+
+https://www.ibm.com/support/knowledgecenter/DSXDOC/analyze-data/visual-recognition-create-model.html
+
 ### Frontend
 This Frontend app is pwa. development and test used Nginx on IBM Cloud IaaS Virtual Server.
 
 ex ``` https://yourserver.com ```
+
+Deploy the contents of the "frontend directory".
 
 ### Backend
 This Backend uses Node-RED.You need to be able to access Node-RED from Nginx using a reverse proxy.
