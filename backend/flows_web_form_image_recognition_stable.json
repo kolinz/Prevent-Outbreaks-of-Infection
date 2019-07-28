@@ -209,7 +209,7 @@
         "rules": [
             {
                 "t": "eq",
-                "v": "custom1",
+                "v": "bacteria",
                 "vt": "str"
             },
             {
