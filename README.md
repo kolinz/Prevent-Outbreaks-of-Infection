@@ -4,7 +4,7 @@ Call for Code Challenge 2019
 ## Application Summary
 [Wiki](https://github.com/kolinz/Prevent-Outbreaks-of-Infection/wiki)
 
-## Deploy guide
+## Deployment guide
 ### Prerequisites
 Pleaase create a custom model on Watson Visual Recognition using Watson Studio.
 
