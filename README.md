@@ -27,6 +27,14 @@ Please add the following nodes to Node-RED.
 
 You have Node-RED ready and Please import "flows_web_form_image_recognition_stable.json" to Node-RED from backend directory.
 
-### Recognition data download
+#### Node-RED node settings
+| node name | display name | operation |
+|---|---|---|
+| function node | Select Custom Model ID | replace with your custom model ID |
+| visual recognition node | visual recognition | set your Watson Visual Recognition API Key and Endpoint URL |
+| cloudantplus out node | log_recog_image | connect your IBM Cloudnat instance |
+| http request node | http request | Set your Slack Incoming webhook URL |
 
+
+### List display and download method of CSV file
 If you want to download recognition data as a CSV file, Please import "notebook_datalistview.ipynb" to Jupyter Notebook. You can use Jupyter Notebook on Watson Studio.
