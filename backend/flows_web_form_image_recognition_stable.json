@@ -4,7 +4,7 @@
         "type": "tab",
         "label": "Call4Code-Prevent Outbreaks of Infection",
         "disabled": false,
-        "info": "Webフォームに画像をアップロードし、画像分類結果を表示する。"
+        "info": "Upload an image to a web form and display the image classification result."
     },
     {
         "id": "22365542.422a9a",
@@ -26,7 +26,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<html>\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\">\n<title>Result</title>\n<link rel=\"stylesheet\" href=\"https://storage.googleapis.com/code.getmdl.io/1.0.0/material.indigo-pink.min.css\">\n<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/icon?family=Material+Icons\">\n<script src=\"https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js\"></script>\n<style type=\"text/css\">\ntable{\n  width: 100%;\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n\ntable th,table td{\n  padding: 10px 0;\n  text-align: center;\n}\n\ntable tr:nth-child(odd){\n  background-color: #eee\n}\n</style>\n</head>\n<body>\n<center>\n<pre>\n{{{payload}}}\n</pre>\n<h4>Basic Information</h4>\n<p>Target：{{target}}</p>\n<p>Location：{{filmlocation}}</p>\n<p>Model Name：{{model}}</p>\n<h4>Recognition result</h4>\n<table>\n    <tr>\n        <th>Candidate1</th>\n        <td>{{class1}}</td>\n        <td>{{score1}}</td>\n    </tr>\n    <tr>\n        <th>Candidate2</th>\n        <td>{{class2}}</td>\n        <td>{{score2}}</td>\n    </tr>\n    <tr>\n        <th>Candidate3</th>\n        <td>{{class3}}</td>\n        <td>{{score3}}</td>\n    </tr>\n    <tr>\n        <th>Candidate4</th>\n        <td>{{class4}}</td>\n        <td>{{score4}}</td>\n    </tr>\n    <tr>\n        <th>Candidate5</th>\n        <td>{{class5}}</td>\n        <td>{{score5}}</td>\n    </tr>\n    <tr>\n        <th>Candidate6</th>\n        <td>{{class6}}</td>\n        <td>{{score6}}</td>\n    </tr>\n</table>\n<hr />\n<p><button type=\"button\" onclick=\"history.back()\">Back</button></p>\n</center>\n</body>\n</html>",
+        "template": "<html>\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\">\n<title>Result</title>\n<style type=\"text/css\">\ntable{\n  width: 100%;\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n\ntable th,table td{\n  padding: 10px 0;\n  text-align: center;\n}\n\ntable tr:nth-child(odd){\n  background-color: #eee\n}\n</style>\n</head>\n<body>\n<center>\n<pre>\n{{{payload}}}\n</pre>\n<h4>Basic Information</h4>\n<p>Target：{{target}}</p>\n<p>Location：{{filmlocation}}</p>\n<p>Model Name：{{model}}</p>\n<h4>Recognition result</h4>\n<table>\n    <tr>\n        <th>Candidate1</th>\n        <td>{{class1}}</td>\n        <td>{{score1}}</td>\n    </tr>\n    <tr>\n        <th>Candidate2</th>\n        <td>{{class2}}</td>\n        <td>{{score2}}</td>\n    </tr>\n    <tr>\n        <th>Candidate3</th>\n        <td>{{class3}}</td>\n        <td>{{score3}}</td>\n    </tr>\n    <tr>\n        <th>Candidate4</th>\n        <td>{{class4}}</td>\n        <td>{{score4}}</td>\n    </tr>\n    <tr>\n        <th>Candidate5</th>\n        <td>{{class5}}</td>\n        <td>{{score5}}</td>\n    </tr>\n    <tr>\n        <th>Candidate6</th>\n        <td>{{class6}}</td>\n        <td>{{score6}}</td>\n    </tr>\n</table>\n<hr />\n<p><button type=\"button\" onclick=\"history.back()\">Back</button></p>\n</center>\n</body>\n</html>",
         "output": "str",
         "x": 1040,
         "y": 339,
@@ -135,7 +135,7 @@
         "type": "function",
         "z": "57c60c54.ff04e4",
         "name": "Output Save Recognition data",
-        "func": "//日時を取得\nvar date = new Date();\n\n//対象名,撮影者名,モデルを取得\nvar target = msg.req.body.itemID;\nvar user = msg.req.body.userID;\nvar model = msg.params.classifier_ids;\n\n//撮影場所を取得\nvar filmlocation = msg.req.body.filmlocation;\n\n//画像判定結果を取得\nvar imageclass1 = msg.result.images[0].classifiers[0].classes[0].class;\nvar imageclass2 = msg.result.images[0].classifiers[0].classes[1].class;\nvar imageclass3 = msg.result.images[0].classifiers[0].classes[2].class;\nvar imageclass4 = msg.result.images[0].classifiers[0].classes[3].class;\nvar imageclass5 = msg.result.images[0].classifiers[0].classes[4].class;\nvar imageclass6 = msg.result.images[0].classifiers[0].classes[5].class;\nvar imagescore1 = Number(msg.result.images[0].classifiers[0].classes[0].score);\nvar imagescore2 = Number(msg.result.images[0].classifiers[0].classes[1].score);\nvar imagescore3 = Number(msg.result.images[0].classifiers[0].classes[2].score);\nvar imagescore4 = Number(msg.result.images[0].classifiers[0].classes[3].score);\nvar imagescore5 = Number(msg.result.images[0].classifiers[0].classes[4].score);\nvar imagescore6 = Number(msg.result.images[0].classifiers[0].classes[5].score);\nvar imagefilename = msg.result.images[0].image;\nvar imagefiletype = msg.req.files[0].mimetype;\n\n//日時と画像判定結果をまとめる。\nmsg.payload = {\n    target: target,\n    user:  user,\n    model: model,\n    location: filmlocation,\n    filename: imagefilename,\n    filetype: imagefiletype,\n    class1: imageclass1,\n    score1: imagescore1,\n    class2: imageclass2,\n    score2: imagescore2,\n    class3: imageclass3,\n    score3: imagescore3,\n    class4: imageclass4,\n    score4: imagescore4,\n    class5: imageclass5,\n    score5: imagescore5,\n    class6: imageclass6,\n    score6: imagescore6,\n    date: date,\n    _attachments: {\n        A001: {\n           content_type: imagefiletype,\n           data: msg.payload.toString('base64')\n        }\n    }  \n}\nreturn msg;",
+        "func": "//get date\nvar date = new Date();\n\n//Target patient name, username, Model ID\nvar target = msg.req.body.itemID;\nvar user = msg.req.body.userID;\nvar model = msg.params.classifier_ids;\n\n//get Location\nvar filmlocation = msg.req.body.filmlocation;\n\n//get recognition result\nvar imageclass1 = msg.result.images[0].classifiers[0].classes[0].class;\nvar imageclass2 = msg.result.images[0].classifiers[0].classes[1].class;\nvar imageclass3 = msg.result.images[0].classifiers[0].classes[2].class;\nvar imageclass4 = msg.result.images[0].classifiers[0].classes[3].class;\nvar imageclass5 = msg.result.images[0].classifiers[0].classes[4].class;\nvar imageclass6 = msg.result.images[0].classifiers[0].classes[5].class;\nvar imagescore1 = Number(msg.result.images[0].classifiers[0].classes[0].score);\nvar imagescore2 = Number(msg.result.images[0].classifiers[0].classes[1].score);\nvar imagescore3 = Number(msg.result.images[0].classifiers[0].classes[2].score);\nvar imagescore4 = Number(msg.result.images[0].classifiers[0].classes[3].score);\nvar imagescore5 = Number(msg.result.images[0].classifiers[0].classes[4].score);\nvar imagescore6 = Number(msg.result.images[0].classifiers[0].classes[5].score);\nvar imagefilename = msg.result.images[0].image;\nvar imagefiletype = msg.req.files[0].mimetype;\n\n//create clodant data\nmsg.payload = {\n    target: target,\n    user:  user,\n    model: model,\n    location: filmlocation,\n    filename: imagefilename,\n    filetype: imagefiletype,\n    class1: imageclass1,\n    score1: imagescore1,\n    class2: imageclass2,\n    score2: imagescore2,\n    class3: imageclass3,\n    score3: imagescore3,\n    class4: imageclass4,\n    score4: imagescore4,\n    class5: imageclass5,\n    score5: imagescore5,\n    class6: imageclass6,\n    score6: imagescore6,\n    date: date,\n    _attachments: {\n        A001: {\n           content_type: imagefiletype,\n           data: msg.payload.toString('base64')\n        }\n    }  \n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 690,
@@ -168,9 +168,9 @@
         "id": "4041914b.fa31f",
         "type": "comment",
         "z": "57c60c54.ff04e4",
-        "name": "store IBM Cloudant",
+        "name": "Connect your IBM Cloudant ",
         "info": "",
-        "x": 1070,
+        "x": 1100,
         "y": 508,
         "wires": []
     },
@@ -178,7 +178,7 @@
         "id": "b7b60aa1.91e868",
         "type": "comment",
         "z": "57c60c54.ff04e4",
-        "name": "Select Custom Model ID",
+        "name": "Set your Custom Model ID",
         "info": "",
         "x": 1090,
         "y": 53,
@@ -195,8 +195,8 @@
         "tostatus": false,
         "complete": "true",
         "targetType": "full",
-        "x": 310,
-        "y": 164,
+        "x": 470,
+        "y": 140,
         "wires": []
     },
     {
@@ -247,7 +247,7 @@
         "type": "function",
         "z": "57c60c54.ff04e4",
         "name": "class & score",
-        "func": "//画像分類結果\nvar class1 = msg.result.images[0].classifiers[0].classes[0].class;\nvar class2 = msg.result.images[0].classifiers[0].classes[1].class;\nvar class3 = msg.result.images[0].classifiers[0].classes[2].class;\nvar class4 = msg.result.images[0].classifiers[0].classes[3].class;\nvar class5 = msg.result.images[0].classifiers[0].classes[4].class;\nvar class6 = msg.result.images[0].classifiers[0].classes[5].class;\nvar score1 = Number(msg.result.images[0].classifiers[0].classes[0].score);\nvar score2 = Number(msg.result.images[0].classifiers[0].classes[1].score);\nvar score3 = Number(msg.result.images[0].classifiers[0].classes[2].score);\nvar score4 = Number(msg.result.images[0].classifiers[0].classes[3].score);\nvar score5 = Number(msg.result.images[0].classifiers[0].classes[4].score);\nvar score6 = Number(msg.result.images[0].classifiers[0].classes[5].score);\n\nmsg.class1 = class1;\nmsg.class2 = class2;\nmsg.class3 = class3;\nmsg.class4 = class4;\nmsg.class5 = class5;\nmsg.class6 = class6;\n\nmsg.score1 = score1 * 100 +\"%\";\nmsg.score2 = score2 * 100 +\"%\";\nmsg.score3 = score3 * 100 +\"%\";\nmsg.score4 = score4 * 100 +\"%\";\nmsg.score5 = score5 * 100 +\"%\";\nmsg.score6 = score6 * 100 +\"%\";\n\n//対象名,場所,モデルを取得\nmsg.target = msg.req.body.itemID;\nmsg.model = msg.req.body.model;\nmsg.filmlocation = msg.req.body.filmlocation;\nreturn msg;",
+        "func": "//recognition result class and score\nvar class1 = msg.result.images[0].classifiers[0].classes[0].class;\nvar class2 = msg.result.images[0].classifiers[0].classes[1].class;\nvar class3 = msg.result.images[0].classifiers[0].classes[2].class;\nvar class4 = msg.result.images[0].classifiers[0].classes[3].class;\nvar class5 = msg.result.images[0].classifiers[0].classes[4].class;\nvar class6 = msg.result.images[0].classifiers[0].classes[5].class;\nvar score1 = Number(msg.result.images[0].classifiers[0].classes[0].score);\nvar score2 = Number(msg.result.images[0].classifiers[0].classes[1].score);\nvar score3 = Number(msg.result.images[0].classifiers[0].classes[2].score);\nvar score4 = Number(msg.result.images[0].classifiers[0].classes[3].score);\nvar score5 = Number(msg.result.images[0].classifiers[0].classes[4].score);\nvar score6 = Number(msg.result.images[0].classifiers[0].classes[5].score);\n\nmsg.class1 = class1;\nmsg.class2 = class2;\nmsg.class3 = class3;\nmsg.class4 = class4;\nmsg.class5 = class5;\nmsg.class6 = class6;\n\nmsg.score1 = score1 * 100 +\"%\";\nmsg.score2 = score2 * 100 +\"%\";\nmsg.score3 = score3 * 100 +\"%\";\nmsg.score4 = score4 * 100 +\"%\";\nmsg.score5 = score5 * 100 +\"%\";\nmsg.score6 = score6 * 100 +\"%\";\n\n//Target patient name, Model, Location\nmsg.target = msg.req.body.itemID;\nmsg.model = msg.req.body.model;\nmsg.filmlocation = msg.req.body.filmlocation;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 550,
@@ -269,8 +269,8 @@
         "tostatus": false,
         "complete": "true",
         "targetType": "full",
-        "x": 250,
-        "y": 475,
+        "x": 610,
+        "y": 400,
         "wires": []
     },
     {
@@ -314,7 +314,7 @@
         "method": "POST",
         "ret": "txt",
         "paytoqs": false,
-        "url": "https://hooks.slack.com/services/xxxxxx/xxxxxxxxx",
+        "url": "https://hooks.slack.com/services/xxxxxx/xxxxxx/xxxxxxxxxx",
         "tls": "",
         "proxy": "",
         "authType": "",
@@ -330,9 +330,9 @@
         "id": "6c64600a.a0a87",
         "type": "comment",
         "z": "57c60c54.ff04e4",
-        "name": "Post Slack Incoming webhook",
+        "name": "Set your Slack Incoming webhook URL",
         "info": "",
-        "x": 640,
+        "x": 670,
         "y": 660,
         "wires": []
     },
@@ -347,7 +347,7 @@
         "tostatus": false,
         "complete": "payload",
         "targetType": "msg",
-        "x": 800,
+        "x": 1090,
         "y": 700,
         "wires": []
     },
@@ -367,10 +367,20 @@
         "wires": []
     },
     {
+        "id": "3789bf8.f6e554",
+        "type": "comment",
+        "z": "57c60c54.ff04e4",
+        "name": "Set your Watson VR API Key",
+        "info": "",
+        "x": 200,
+        "y": 380,
+        "wires": []
+    },
+    {
         "id": "c79fcf88.f55dc",
         "type": "cloudantplus",
         "z": "",
-        "host": "https://xxxxxxxx-bluemix:xxxxxxxxx-bluemix.cloudantnosqldb.appdomain.cloud",
+        "host": "https://xxxxxxx-bluemix:xxxxxxxx@xxxxxxxxx-bluemix.cloudantnosqldb.appdomain.cloud",
         "name": ""
     }
 ]
