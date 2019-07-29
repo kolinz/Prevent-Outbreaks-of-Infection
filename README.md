@@ -8,6 +8,8 @@ Pleaase create a custom model on Watson Visual Recognition using Watson Studio.
 If you don't use Watson Studio, I recomend that you get [IBM Cloud Lite Account](https://www.ibm.com/jp-ja/cloud/lite-account). And you can try custom model useing following contents.
 https://www.ibm.com/support/knowledgecenter/DSXDOC/analyze-data/visual-recognition-create-model.html
 
+In this project, we created a custom image model using an image that assumes a gram-stained bacteria. 
+
 ### Frontend
 This Frontend app is pwa. development and test used Nginx on IBM Cloud IaaS Virtual Server.
 
