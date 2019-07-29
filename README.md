@@ -14,7 +14,7 @@ This Frontend app is pwa. development and test used Nginx on IBM Cloud IaaS Virt
 
 ex ``` https://yourserver.com ```
 
-Deploy the contents of the "frontend directory".
+Deploy the contents of the "frontend directory" on "/usr/share/nginx/html".
 
 ### Backend
 This Backend uses Node-RED.You need to be able to access Node-RED from Nginx using a reverse proxy.
