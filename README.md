@@ -6,8 +6,12 @@ Call for Code Challenge 2019
 Pleaase create a custom model on Watson Visual Recognition using Watson Studio.
 
 If you don't use Watson Studio, I recomend that you get [IBM Cloud Lite Account](https://www.ibm.com/jp-ja/cloud/lite-account). And you can try custom model useing following contents.
-
 https://www.ibm.com/support/knowledgecenter/DSXDOC/analyze-data/visual-recognition-create-model.html
+
+The URL link for training and testing images of custom models
+
+https://app.box.com/s/gqq5oi56a8tks2kuk0df70igi11rcaz4
+
 
 ### Frontend
 This Frontend app is pwa. development and test used Nginx on IBM Cloud IaaS Virtual Server.
