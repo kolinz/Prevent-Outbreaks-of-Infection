@@ -152,7 +152,7 @@
         "id": "428ffd01.4ca954",
         "type": "function",
         "z": "57c60c54.ff04e4",
-        "name": "Select Custome Model ID",
+        "name": "Select Custom Model ID",
         "func": "msg.params = {};\nmsg.params.classifier_ids = \"DefaultCustomModelBacteria_879086840\";\nmsg.params.threshold = \"0\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
