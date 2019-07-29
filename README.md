@@ -1,4 +1,4 @@
-# Prevent-Outbreaks-of-Infection
+# Prevent-Outbreak-of-Infection
 Call for Code Challenge 2019
 
 ## Application Summary
